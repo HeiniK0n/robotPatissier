@@ -31,7 +31,7 @@ def souhaiterJourDuGateau(poteauOuCommentaire,redditeur):
     JoyeuxJourDuGateauTexte+="\n\n bipe bipe  ! Tiens 🍰  bipe bipe ! (à la rançaise) \n\n---\n\n" 
     JoyeuxJourDuGateauTexte+= "^( Je suis ton Robot Patissier Personnel ! \n\n" + " Profites ! Gourmand !)^"
     print(JoyeuxJourDuGateauTexte)
-    poteauOuCommentaire.reply(JoyeuxJourDuGateauTexte)
+#     poteauOuCommentaire.reply(JoyeuxJourDuGateauTexte)
 
 #  ============================    
 
@@ -40,13 +40,14 @@ def sauvegardeListeDesMangeursDeGateaux(listeRedditeursDejaFournisEnGateaux):
         for item in listeRedditeursDejaFournisEnGateaux:
             f.write("%s\n" % item)
     f.close()
+    print(" Sauvegarde des bouffeurs de gateaux et AUREVOIR")
 
 #  ============================    
 
 def estCeLeJourDuGateaux ( moisTest , jourTest, redditeur,poteauOuCommentaire):
 #     moisActuel=3 #pour debug
 #     jourActuel=5 #pour debug
-    if redditeur in listeRedditeurDejaFourniEnGateau :
+    if redditeur in listeRedditeursDejaFournisEnGateaux :
         print(redditeur +" déjà gateauisé")
     else :
         if int(moisTest) == int(moisActuel) :
@@ -87,7 +88,13 @@ def listerPoteaux(sousmarin):
 if __name__ == "__main__":
     
     if len(sys.argv) < 2:
-        logging.warning("Usage: `python robotPatisier.py parametres`   ou parametres est un fichier de type `\n nombot \n client_id:client_secret \n username:password`")
+        logging.warning("Usage: `./robotPatisier parametres` "  
+        + " ou parametres est un fichier de type "
+        + " `\n nombot "
+        + " \n client_id:client_secret "
+        + " \n username:password "
+        + " \n profondeurPoteau:profondeurCommentaire "
+        + " \n sousmarin`")
         sys.exit(-1)
 
     ID={}
@@ -106,9 +113,17 @@ if __name__ == "__main__":
                 elif ln == 3:
                     ID["profondeurPoteau"] = elem[0]
                     ID["profondeurCommentaire"] = elem[1]
+                elif ln == 4:
+                    ID["sousmarin"] = elem[0]
     except:
         logging.warning("Fichier 'parametres' invalide.")
-        logging.warning("Usage: `./robotPatisier parametres`   ou parametres est un fichier de type `\n nombot \n client_id:client_secret \n username:password`")
+        logging.warning("Usage: `./robotPatisier parametres` "  
+        + " ou parametres est un fichier de type "
+        + " `\n nombot "
+        + " \n client_id:client_secret "
+        + " \n username:password "
+        + " \n profondeurPoteau:profondeurCommentaire "
+        + " \n sousmarin`")
         sys.exit(-1)
         
     if "nom" not in ID or "client_id" not in ID or "client_secret" not in ID or "username" not in ID or "password" not in ID:
@@ -134,7 +149,7 @@ if __name__ == "__main__":
         print('fichier ancien a vider')
         fichier = open(leFichierDesLaureats,'w') 
     
-    if len(listeRedditeurDejaFourniEnGateau) > 0 :
+    if len(listeRedditeursDejaFournisEnGateaux) > 0 :
         print(" Ils ont déjà eu le gateau : ")
         print( listeRedditeursDejaFournisEnGateaux)
     
