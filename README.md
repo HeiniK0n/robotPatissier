@@ -15,23 +15,26 @@ This script must run several times a day to avoid missing any cake day.
 =========================  
 First , create a reddit account https://www.reddit.com/register/?dest=https%3A%2F%2Fwww.reddit.com%2F  
 
-It will give you a username an a password
+It will give you a username an a password.
 
 Then create a reddit application script type  there : https://www.reddit.com/prefs/apps  
 
-It will setup an client_id and client_secret 
+It will setup an client_id and client_secret.
 
-These 4 informations will be mandatory in 'identifiants' file
+Then set up the numbers of posts scanned and also the numbers of comments scanned.
+
+Finally, set up the sub targeted.
+
+These informations will be mandatory in 'parametres' file.
 
 =========================  
-Then launch the main script with the 'identifiants' file as argument.
+Then launch the main script with the 'parametres' file as argument.
 
 ```
-python robotPatissier.py identifiants
+python robotPatissier.py parametres
 ```
 
 ---
-Actually, it is targeted for the sub r/rance on the 10 last new posts, of course you can change the sub targeted, and the numbers of post scanned. (Maybe I will add these parameters to the identifiants configuration file)
 
 
 

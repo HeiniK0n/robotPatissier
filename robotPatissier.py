@@ -35,9 +35,9 @@ def souhaiterJourDuGateau(poteauOuCommentaire,redditeur):
 
 #  ============================    
 
-def sauvegardeListeDesMangeursDeGateaux(listeRedditeurDejaFourniEnGateau):
+def sauvegardeListeDesMangeursDeGateaux(listeRedditeursDejaFournisEnGateaux):
     with open(leFichierDesLaureats, 'w') as f:
-        for item in listeRedditeurDejaFourniEnGateau:
+        for item in listeRedditeursDejaFournisEnGateaux:
             f.write("%s\n" % item)
     f.close()
 
@@ -54,7 +54,7 @@ def estCeLeJourDuGateaux ( moisTest , jourTest, redditeur,poteauOuCommentaire):
                 print(" jour du gateau pour "+redditeur)
                 souhaiterJourDuGateau(poteauOuCommentaire, redditeur)
                 
-                listeRedditeurDejaFourniEnGateau.append(redditeur)
+                listeRedditeursDejaFournisEnGateaux.append(redditeur)
 
 #  ============================        
 
@@ -75,19 +75,19 @@ def listerPoteaux(sousmarin):
             moisRedditeurCommenteur = str(dt_object.month)
             print("\t Commenteur = "+commentaire.author.name + "[" + commentaire.author.id + "] " + jourRedditeurCommenteur + "/" + moisRedditeurCommenteur)
             estCeLeJourDuGateaux (moisRedditeurCommenteur , jourRedditeurCommenteur, commentaire.author.name + "[" + commentaire.author.id + "]" , commentaire)
-            if j > 10 :
+            if j > int(ID["profondeurCommentaire"]):
                 break
             
-        if i > 10:
+        if i > int(ID["profondeurPoteau"]):
             break
-    sauvegardeListeDesMangeursDeGateaux(listeRedditeurDejaFourniEnGateau)  
+    sauvegardeListeDesMangeursDeGateaux(listeRedditeursDejaFournisEnGateaux)  
 
 #  ============================    
 
 if __name__ == "__main__":
     
     if len(sys.argv) < 2:
-        logging.warning("Usage: `python robotPatisier.py identifiants`   ou identifiants est un fichier de type `\n nombot \n client_id:client_secret \n username:password`")
+        logging.warning("Usage: `python robotPatisier.py parametres`   ou parametres est un fichier de type `\n nombot \n client_id:client_secret \n username:password`")
         sys.exit(-1)
 
     ID={}
@@ -103,20 +103,23 @@ if __name__ == "__main__":
                 elif ln == 2:
                     ID["username"] = elem[0]
                     ID["password"] = elem[1]
+                elif ln == 3:
+                    ID["profondeurPoteau"] = elem[0]
+                    ID["profondeurCommentaire"] = elem[1]
     except:
-        logging.warning("Fichier 'identifiants' invalide.")
-        logging.warning("Usage: `./robotPatisier identifiants`   ou identifiants est un fichier de type `\n nombot \n client_id:client_secret \n username:password`")
+        logging.warning("Fichier 'parametres' invalide.")
+        logging.warning("Usage: `./robotPatisier parametres`   ou parametres est un fichier de type `\n nombot \n client_id:client_secret \n username:password`")
         sys.exit(-1)
         
     if "nom" not in ID or "client_id" not in ID or "client_secret" not in ID or "username" not in ID or "password" not in ID:
-        logging.warning("Fichier 'identifiants' invalide.")
+        logging.warning("Fichier 'parametres' invalide.")
         sys.exit(-1)
 
     today = date.today()
     
     global leFichierDesLaureats
     
-    listeRedditeurDejaFourniEnGateau = []
+    listeRedditeursDejaFournisEnGateaux = []
     
     leFichierDesLaureats = "laureatsDuJour.txt"
     
@@ -126,14 +129,14 @@ if __name__ == "__main__":
         for line in fichier : 
             print(line)
             if (len(line.strip())> 0 ) :
-                listeRedditeurDejaFourniEnGateau.append(line.strip())
+                listeRedditeursDejaFournisEnGateaux.append(line.strip())
     else :
         print('fichier ancien a vider')
         fichier = open(leFichierDesLaureats,'w') 
     
     if len(listeRedditeurDejaFourniEnGateau) > 0 :
         print(" Ils ont déjà eu le gateau : ")
-        print( listeRedditeurDejaFourniEnGateau)
+        print( listeRedditeursDejaFournisEnGateaux)
     
     
     global jourActuel, moisActuel
@@ -148,7 +151,7 @@ if __name__ == "__main__":
                          password=ID["password"])
 
     
-    sousmarin = luceci.subreddit('rance').new()
+    sousmarin = luceci.subreddit(ID["sousmarin"]).new()
 
     Thread(target = listerPoteaux, args=(sousmarin,)).start()
     
