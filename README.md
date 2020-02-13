@@ -6,7 +6,8 @@ Reddit happy cakeday provider (sub r/rance)
 The purpose is to comment the post or the comments with a 'happy cake day' quote for the user that the cake day is reached today.
 
 It scan the post author 's account creation date or any commentator's account creation date, 
-and if it's today then it comment 'Joyeux jour du gateau'
+
+and if it's today then it comment "Joyeux jour du gateau"
 This script must run several times a day to avoid missing any cake day.
 
 =========================  
