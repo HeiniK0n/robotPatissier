@@ -3,7 +3,7 @@ Fournisseur de jour du gateau pour Reddit (sousmarin r/rance)
 
 Reddit happy cakeday provider (sub r/rance)
 
-The purpose is to comment post or comments with a cake for the user that the cake day is reached today.
+The purpose is to comment the post or the comments with a 'happy cake day' quote for the user that the cake day is reached today.
 
 It scan the post author 's account creation date or any commentator's account creation date, 
 and if it's today then it comment 'Joyeux jour du gateau'
@@ -28,7 +28,7 @@ python robotPatissier.py identifiants
 ```
 
 ---
-Actually, it is targeted for the sub r/rance on the 10 last new posts, of course you can change the sub targeted, and the numbers of post scanned.
+Actually, it is targeted for the sub r/rance on the 10 last new posts, of course you can change the sub targeted, and the numbers of post scanned. (Maybe I will add these parameters to the identifiants configuration file)
 
 
 
