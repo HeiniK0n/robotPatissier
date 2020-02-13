@@ -27,11 +27,11 @@ import sys
 
 
 def souhaiterJourDuGateau(poteauOuCommentaire,redditeur):
-    JoyeuxJourDuGateauTexte = "Joyeux jour du gateau " +redditeur[:redditeur.index('[')]
-    JoyeuxJourDuGateauTexte+="\n\n bipe bipe  ! Tiens 🍰  bipe bipe ! (à la rançaise) \n\n---\n\n" 
-    JoyeuxJourDuGateauTexte+= "^( Je suis ton Robot Patissier Personnel ! \n\n" + " Profites ! Gourmand !)^"
+    JoyeuxJourDuGateauTexte  = "Joyeux jour du gateau " +redditeur[:redditeur.index('[')]
+    JoyeuxJourDuGateauTexte +="\n\n biipe  ! Tiens 🍰  bipe bipe ! (à la rançaise) \n\n---\n\n" 
+    JoyeuxJourDuGateauTexte += "^( Je suis ton Robot Patissier Personnel ! Profites ! Gourmand ! )"
     print(JoyeuxJourDuGateauTexte)
-#     poteauOuCommentaire.reply(JoyeuxJourDuGateauTexte)
+    poteauOuCommentaire.reply(JoyeuxJourDuGateauTexte)
 
 #  ============================    
 
@@ -40,11 +40,11 @@ def sauvegardeListeDesMangeursDeGateaux(listeRedditeursDejaFournisEnGateaux):
         for item in listeRedditeursDejaFournisEnGateaux:
             f.write("%s\n" % item)
     f.close()
-    print(" Sauvegarde des bouffeurs de gateaux et AUREVOIR")
+    print(" \n Sauvegarde des bouffeurs de gateaux et AUREVOIR")
 
 #  ============================    
 
-def estCeLeJourDuGateaux ( moisTest , jourTest, redditeur,poteauOuCommentaire):
+def estCeLeJourDuGateaux ( moisTest , jourTest, redditeur, poteauOuCommentaire):
 #     moisActuel=3 #pour debug
 #     jourActuel=5 #pour debug
     if redditeur in listeRedditeursDejaFournisEnGateaux :
@@ -62,7 +62,7 @@ def estCeLeJourDuGateaux ( moisTest , jourTest, redditeur,poteauOuCommentaire):
 def listerPoteaux(sousmarin):
     '''Thread qui espionne les poteaux'''
     for i, poteau in enumerate(sousmarin):
-        print("\n ------------\n" + poteau.title)
+        print("\n ------------\n "+str(i)+ " " + poteau.title)
         dt_object = datetime.fromtimestamp(poteau.author.created)
         jourRedditeurAuteur = str(dt_object.day)
         moisRedditeurAuteur = str(dt_object.month)
@@ -70,17 +70,19 @@ def listerPoteaux(sousmarin):
         estCeLeJourDuGateaux (moisRedditeurAuteur , jourRedditeurAuteur, poteau.author.name + "[" + poteau.author.id + "]" , poteau)
         
         for j,commentaire in enumerate(poteau.comments) :
-            dt_object = datetime.fromtimestamp(commentaire.author.created)
-            #print("dt_object =", dt_object)
-            jourRedditeurCommenteur = str(dt_object.day)
-            moisRedditeurCommenteur = str(dt_object.month)
-            print("\t Commenteur = "+commentaire.author.name + "[" + commentaire.author.id + "] " + jourRedditeurCommenteur + "/" + moisRedditeurCommenteur)
-            estCeLeJourDuGateaux (moisRedditeurCommenteur , jourRedditeurCommenteur, commentaire.author.name + "[" + commentaire.author.id + "]" , commentaire)
-            if j > int(ID["profondeurCommentaire"]):
-                break
+            if  commentaire.author is not None :
+                dt_object = datetime.fromtimestamp(commentaire.author.created)
+                #print("dt_object =", dt_object)
+                jourRedditeurCommenteur = str(dt_object.day)
+                moisRedditeurCommenteur = str(dt_object.month)
+                print("\t Commenteur = "+commentaire.author.name + "[" + commentaire.author.id + "] " + jourRedditeurCommenteur + "/" + moisRedditeurCommenteur)
+                estCeLeJourDuGateaux (moisRedditeurCommenteur , jourRedditeurCommenteur, commentaire.author.name + "[" + commentaire.author.id + "]" , commentaire)
+                if j > int(ID["profondeurCommentaire"]):
+                    break
             
         if i > int(ID["profondeurPoteau"]):
             break
+        
     sauvegardeListeDesMangeursDeGateaux(listeRedditeursDejaFournisEnGateaux)  
 
 #  ============================    
@@ -126,10 +128,6 @@ if __name__ == "__main__":
         + " \n sousmarin`")
         sys.exit(-1)
         
-    if "nom" not in ID or "client_id" not in ID or "client_secret" not in ID or "username" not in ID or "password" not in ID:
-        logging.warning("Fichier 'parametres' invalide.")
-        sys.exit(-1)
-
     today = date.today()
     
     global leFichierDesLaureats
