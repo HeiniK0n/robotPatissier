@@ -1,9 +1,9 @@
 # robotPatissier 
 
 
-Fournisseur de jour du gateau pour Reddit (sousmarin r/rance) 
+Fournisseur de jour du gateau pour Reddit 
 
-Reddit happy cakeday provider (sub r/rance)
+Reddit happy cakeday provider 
 
 The purpose is to comment the post or the comments with a 'happy cake day' quote for the user that the cake day is reached today.
 
