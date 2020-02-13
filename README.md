@@ -1,6 +1,13 @@
 # robotPatissier
 Fournisseur de jour du gateau pour Reddit (sousmarin r/rance) 
+
 Reddit happy cakeday provider (sub r/rance)
+
+The purpose is to comment post or comments with a cake for the user that the cake day is reached today.
+
+It scan the post author 's account creation date or any commentator's account creation date, 
+and if it's today then it comment 'Joyeux jour du gateau'
+This script must run several times a day to avoid missing any cake day.
 
 =========================  
 First , create a reddit account https://www.reddit.com/register/?dest=https%3A%2F%2Fwww.reddit.com%2F  
@@ -21,6 +28,8 @@ python robotPatissier.py identifiants
 ```
 
 ---
-Actually, it is targeted for teh sub r/rance on the 10 last new posts, of course you can change the sub targeted, and the numbers of post scanned
+Actually, it is targeted for the sub r/rance on the 10 last new posts, of course you can change the sub targeted, and the numbers of post scanned.
 
-I know it can easily improved.
+
+
+I know it can easily improved. Have fun.
