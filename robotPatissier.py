@@ -68,13 +68,15 @@ def listerPoteaux(sousmarin):
         print("\t Auteur  = " + poteau.author.name + "[" + poteau.author.id + "] " + jourRedditeurAuteur + "/" + moisRedditeurAuteur)
         estCeLeJourDuGateaux (moisRedditeurAuteur , jourRedditeurAuteur, poteau.author.name + "[" + poteau.author.id + "]" , poteau)
         
-        for commentaire in poteau.comments :
+        for j,commentaire in enumerate(poteau.comments) :
             dt_object = datetime.fromtimestamp(commentaire.author.created)
             #print("dt_object =", dt_object)
             jourRedditeurCommenteur = str(dt_object.day)
             moisRedditeurCommenteur = str(dt_object.month)
             print("\t Commenteur = "+commentaire.author.name + "[" + commentaire.author.id + "] " + jourRedditeurCommenteur + "/" + moisRedditeurCommenteur)
             estCeLeJourDuGateaux (moisRedditeurCommenteur , jourRedditeurCommenteur, commentaire.author.name + "[" + commentaire.author.id + "]" , commentaire)
+            if j > 10 :
+                break
             
         if i > 10:
             break
