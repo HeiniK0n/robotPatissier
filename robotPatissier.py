@@ -41,6 +41,9 @@ def sauvegardeListeDesMangeursDeGateaux(listeRedditeursDejaFournisEnGateaux):
             f.write("%s\n" % item)
     f.close()
     print(" \n Sauvegarde des bouffeurs de gateaux et AUREVOIR")
+    if len(listeRedditeursDejaFournisEnGateaux) > 0 :
+        print(" \n les gateauisés du jour : ")
+        print( listeRedditeursDejaFournisEnGateaux)
 
 #  ============================    
 
