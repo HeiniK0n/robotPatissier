@@ -23,12 +23,14 @@ import praw
 import os.path
 import logging
 import sys
+import emoji
+import time
  
 
 
 def souhaiterJourDuGateau(poteauOuCommentaire,redditeur):
     JoyeuxJourDuGateauTexte  = "Joyeux jour du gateau " +redditeur[:redditeur.index('[')]
-    JoyeuxJourDuGateauTexte +="\n\n biipe  ! Tiens 🍰  bipe bipe ! (à la rançaise) \n\n---\n\n" 
+    JoyeuxJourDuGateauTexte +="\n\n biipe  ! Tiens 🍰 !  bipe bipe ! (style rançais) \n\n---\n\n" 
     JoyeuxJourDuGateauTexte += "^( Je suis ton Robot Patissier Personnel ! Profites ! Gourmand ! )"
     print(JoyeuxJourDuGateauTexte)
     poteauOuCommentaire.reply(JoyeuxJourDuGateauTexte)
@@ -138,7 +140,11 @@ if __name__ == "__main__":
     listeRedditeursDejaFournisEnGateaux = []
     
     leFichierDesLaureats = "laureatsDuJour.txt"
-    
+	
+    print("\n===============================================")    
+    print("\n===============================================")    
+    print(time.strftime("%Y-%m-%d %H:%M"))
+
     if dt.datetime.fromtimestamp(os.path.getctime(leFichierDesLaureats)).date() == today:
         print('fichier du jour')
         fichier = open(leFichierDesLaureats,'r+') 

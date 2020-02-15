@@ -1,0 +1,2 @@
+# robot patissier toutes les 5 minutes
+*/5 * * * * sh  /home/pi/robotPatissier/robotPatissier-master/lanceur.sh 
