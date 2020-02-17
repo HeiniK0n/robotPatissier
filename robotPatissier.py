@@ -1,3 +1,4 @@
+# coding: utf8
 #!/usr/bin/env python3
 '''
     This program is free software: you can redistribute it and/or modify
@@ -14,7 +15,6 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 '''
 
-
 from datetime import date
 from datetime import datetime
 import datetime as dt
@@ -30,7 +30,8 @@ import time
 
 def souhaiterJourDuGateau(poteauOuCommentaire,redditeur):
     JoyeuxJourDuGateauTexte  = "Joyeux jour du gateau " +redditeur[:redditeur.index('[')]
-    JoyeuxJourDuGateauTexte +="\n\n biipe  ! Tiens 🍰 !  bipe bipe ! (style rançais) \n\n---\n\n" 
+    #JoyeuxJourDuGateauTexte +="\n\n biipe  ! Tiens 🍰 !  bipe bipe ! (style rançais) \n\n---\n\n" 
+    JoyeuxJourDuGateauTexte +="\n\n biipe  ! Tiens " + emoji.emojize(':shortcake:') + " !  bipe bipe ! (style rançais) \n\n---\n\n" 
     JoyeuxJourDuGateauTexte += "^( Je suis ton Robot Patissier Personnel ! Profites ! Gourmand ! )"
     print(JoyeuxJourDuGateauTexte)
     poteauOuCommentaire.reply(JoyeuxJourDuGateauTexte)
@@ -141,9 +142,10 @@ if __name__ == "__main__":
     
     leFichierDesLaureats = "laureatsDuJour.txt"
 	
-    print("\n===============================================")    
-    print("\n===============================================")    
+    print("===============================================\n===============================================")    
     print(time.strftime("%Y-%m-%d %H:%M"))
+    print(ID["sousmarin"])
+    print("===============================================\n===============================================")    
 
     if dt.datetime.fromtimestamp(os.path.getctime(leFichierDesLaureats)).date() == today:
         print('fichier du jour')
@@ -171,11 +173,8 @@ if __name__ == "__main__":
                          client_secret=ID["client_secret"],
                          username=ID["username"],
                          password=ID["password"])
-
     
     sousmarin = luceci.subreddit(ID["sousmarin"]).new()
 
     Thread(target = listerPoteaux, args=(sousmarin,)).start()
-    
-    
 
