@@ -37,7 +37,12 @@ python robotPatissier.py parametres
 There is some rules to keep in mind :  
 - You need python3  
 - you have to install python modules with pip :  praw and emoji  
-(maybe I will explain all the environment sh.t I've been through...)
+```
+pip install -r requirements.txt
+```
+
+
+PS :(maybe I will explain all the environment sh.t I've been through...)
 
 
 ---
