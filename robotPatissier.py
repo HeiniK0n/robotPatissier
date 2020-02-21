@@ -29,10 +29,13 @@ import time
 
 
 def souhaiterJourDuGateau(poteauOuCommentaire,redditeur):
-    JoyeuxJourDuGateauTexte  = "Joyeux jour du gateau " +redditeur[:redditeur.index('[')]
+    JoyeuxJourDuGateauTexte  = "Joyeux jour du gateau [u/"+redditeur[:redditeur.index('[')]+"](https://www.reddit.com/user/"+redditeur[:redditeur.index('[')]+")" 
     #JoyeuxJourDuGateauTexte +="\n\n biipe  ! Tiens 🍰 !  bipe bipe ! (style rançais) \n\n---\n\n" 
-    JoyeuxJourDuGateauTexte +="\n\n biipe  ! Tiens " + emoji.emojize(':shortcake:') + " !  bipe bipe ! (style rançais) \n\n---\n\n" 
-    JoyeuxJourDuGateauTexte += "^( Je suis ton Robot Patissier Personnel ! Profites ! Gourmand ! )"
+    if ID['sousmarin'] == "rance" :
+        JoyeuxJourDuGateauTexte +="\n\n biipe  ! Tiens " + emoji.emojize(':shortcake:') + " !  bipe bipe ! (style rançais) \n\n---\n\n" 
+    else :
+        JoyeuxJourDuGateauTexte +="\n\n beeep  ! Tiens " + emoji.emojize(':shortcake:') + " !  beep beep !  \n\n---\n\n"
+    JoyeuxJourDuGateauTexte += "^( Je suis )[u/LeReauBeau](https://www.reddit.com/user/LeReauBeau) ^(ton Robot Patissier Personnel ! Profite ! Régale-toi ! )"
     print(JoyeuxJourDuGateauTexte)
     poteauOuCommentaire.reply(JoyeuxJourDuGateauTexte)
 
@@ -51,8 +54,8 @@ def sauvegardeListeDesMangeursDeGateaux(listeRedditeursDejaFournisEnGateaux):
 #  ============================    
 
 def estCeLeJourDuGateaux ( moisTest , jourTest, redditeur, poteauOuCommentaire):
-#     moisActuel=3 #pour debug
-#     jourActuel=5 #pour debug
+#     moisTest=2 #pour debug
+#     jourTest=18 #pour debug
     if redditeur in listeRedditeursDejaFournisEnGateaux :
         print(redditeur +" déjà gateauisé")
     else :
@@ -65,29 +68,64 @@ def estCeLeJourDuGateaux ( moisTest , jourTest, redditeur, poteauOuCommentaire):
 
 #  ============================        
 
+def listerCommentaires(listeCommentaires, profondeur):
+     for j,commentaire in enumerate(listeCommentaires) :
+        try : 
+            if  commentaire.author is not None :
+                dt_objectCommentaire = datetime.fromtimestamp(commentaire.created_utc)
+                
+                if str(dt_objectCommentaire.day) == jourActuel or len(commentaire.replies)>0 :
+                
+                    dt_objectRedditeurCommenteur = datetime.fromtimestamp(commentaire.author.created)
+                    print("\t"+ profondeur+" Commenteur = "+commentaire.author.name + "[" + commentaire.author.id + "] " 
+                          + str(dt_objectRedditeurCommenteur.day) + "/" 
+                          + str(dt_objectRedditeurCommenteur.month) + "/"
+                          + str(dt_objectRedditeurCommenteur.year)  + " => commentaire = ["
+                          + str(dt_objectCommentaire.day) + "/"
+                          + str(dt_objectCommentaire.month) + "/"
+                          + str(dt_objectCommentaire.year) + "]")
+        
+                    if   str(dt_objectRedditeurCommenteur.year) != anneeActuelle  :
+                        estCeLeJourDuGateaux (dt_objectRedditeurCommenteur.month , dt_objectRedditeurCommenteur.day, commentaire.author.name + "[" + commentaire.author.id + "]" , commentaire)
+                    
+                    if len(commentaire.replies)>0 :
+                        listerCommentaires(commentaire.replies,profondeur +"\t")
+        except :
+            print("erreur sur commentaire : "+str(commentaire.id) +  " , num :"+ str(j))
+        finally :                 
+            if j >= int(ID["profondeurCommentaire"]):
+                break
+    
+#  ============================        
+
 def listerPoteaux(sousmarin):
     '''Thread qui espionne les poteaux'''
     for i, poteau in enumerate(sousmarin):
-        print("\n ------------\n "+str(i)+ " " + poteau.title)
-        dt_object = datetime.fromtimestamp(poteau.author.created)
-        jourRedditeurAuteur = str(dt_object.day)
-        moisRedditeurAuteur = str(dt_object.month)
-        print("\t Auteur  = " + poteau.author.name + "[" + poteau.author.id + "] " + jourRedditeurAuteur + "/" + moisRedditeurAuteur)
-        estCeLeJourDuGateaux (moisRedditeurAuteur , jourRedditeurAuteur, poteau.author.name + "[" + poteau.author.id + "]" , poteau)
-        
-        for j,commentaire in enumerate(poteau.comments) :
-            if  commentaire.author is not None :
-                dt_object = datetime.fromtimestamp(commentaire.author.created)
-                #print("dt_object =", dt_object)
-                jourRedditeurCommenteur = str(dt_object.day)
-                moisRedditeurCommenteur = str(dt_object.month)
-                print("\t Commenteur = "+commentaire.author.name + "[" + commentaire.author.id + "] " + jourRedditeurCommenteur + "/" + moisRedditeurCommenteur)
-                estCeLeJourDuGateaux (moisRedditeurCommenteur , jourRedditeurCommenteur, commentaire.author.name + "[" + commentaire.author.id + "]" , commentaire)
-                if j > int(ID["profondeurCommentaire"]):
-                    break
+        try :
+            if i==14 : 
+                print ("debug")
+            dt_objectPoteau = datetime.fromtimestamp(poteau.created_utc)
+            print("\n ------------\n "+str(i)+ " " + poteau.title 
+                  + "[" + str(dt_objectPoteau.day)
+                  + "/" + str(dt_objectPoteau.month)
+                  + "/" + str(dt_objectPoteau.year) + "]")
             
-        if i > int(ID["profondeurPoteau"]):
-            break
+            dt_objectAuteur = datetime.fromtimestamp(poteau.author.created)
+            print("\t Auteur  = " + poteau.author.name + "[" + poteau.author.id + "] " 
+                  + str(dt_objectAuteur.day) + "/" 
+                  + str(dt_objectAuteur.month) + "/"
+                  + str(dt_objectAuteur.year) )
+            
+            if (str(dt_objectAuteur.year) != anneeActuelle and dt_objectPoteau.day == jourActuel) :
+                estCeLeJourDuGateaux (str(dt_objectAuteur.month), str(dt_objectAuteur.day), poteau.author.name + "[" + poteau.author.id + "]" , poteau)
+            
+            if len(poteau.comments)>0 :
+                listerCommentaires(poteau.comments, "\t")
+        except :
+            print("erreur sur poteau : "+str(poteau.id) +  " , num :"+ str(i))
+        finally:        
+            if i >= int(ID["profondeurPoteau"]):
+                break
         
     sauvegardeListeDesMangeursDeGateaux(listeRedditeursDejaFournisEnGateaux)  
 
@@ -163,10 +201,11 @@ if __name__ == "__main__":
         print( listeRedditeursDejaFournisEnGateaux)
     
     
-    global jourActuel, moisActuel
+    global jourActuel, moisActuel, anneeActuelle
     jourActuel = today.strftime("%d")
     moisActuel = today.strftime("%m")
-    print("On est le  =", jourActuel +"/"+ moisActuel)
+    anneeActuelle = today.strftime("%Y")
+    print("On est le  =", jourActuel +"/"+ moisActuel +"/"+ anneeActuelle)
 
     luceci = praw.Reddit(user_agent=ID["nom"],
                          client_id=ID["client_id"],
@@ -175,6 +214,7 @@ if __name__ == "__main__":
                          password=ID["password"])
     
     sousmarin = luceci.subreddit(ID["sousmarin"]).new()
-
-    Thread(target = listerPoteaux, args=(sousmarin,)).start()
-
+    print("--------------------------------------------------------------------------", datetime.now())
+#     Thread(target = listerPoteaux, args=(sousmarin,)).start()
+    listerPoteaux(sousmarin)
+    print("--------------------------------------------------------------------------", datetime.now())
