@@ -102,8 +102,7 @@ def listerPoteaux(sousmarin):
     '''Thread qui espionne les poteaux'''
     for i, poteau in enumerate(sousmarin):
         try :
-            if i==14 : 
-                print ("debug")
+        
             dt_objectPoteau = datetime.fromtimestamp(poteau.created_utc)
             print("\n ------------\n "+str(i)+ " " + poteau.title 
                   + "[" + str(dt_objectPoteau.day)
