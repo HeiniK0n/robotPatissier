@@ -157,7 +157,7 @@ class ParcoureurDePoteaux(Thread):
 if __name__ == "__main__":
 
     if len(sys.argv) < 2:
-        logging.warning("Usage: `./robotPatisier parametres` "  
+        print("Usage: `./robotPatisier parametres` "  
         + " ou parametres est un fichier de type "
         + " `\n nombot "
         + " \n client_id:client_secret "
@@ -188,8 +188,8 @@ if __name__ == "__main__":
                 elif ln == 5:
                     ID["NomDuFichierDeSauvegarde"] = elem[0]
     except:
-        logging.warning("Fichier 'parametres' invalide.")
-        logging.warning("Usage: `./robotPatisier parametres` "  
+        print("Fichier 'parametres' invalide.")
+        print("Usage: `./robotPatisier parametres` "  
         + " ou parametres est un fichier de type "
         + " `\n nombot "
         + " \n client_id:client_secret "
